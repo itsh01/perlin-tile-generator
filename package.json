@@ -1,0 +1,28 @@
+{
+    "name": "perlin-tile-generator",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "babel-eslint": "^8.2.3",
+        "eslint": "^4.19.1",
+        "eslint-config-react-app": "^2.1.0",
+        "eslint-plugin-flowtype": "^2.46.3",
+        "eslint-plugin-import": "^2.11.0",
+        "eslint-plugin-jsx-a11y": "^6.0.3",
+        "eslint-plugin-react": "^7.7.0",
+        "lodash": "^4.17.10",
+        "material-ui": "^0.20.0",
+        "react": "^16.3.2",
+        "react-app-rewire-eslint": "^0.2.3",
+        "react-app-rewire-hot-loader": "^1.0.1",
+        "react-app-rewired": "^1.5.2",
+        "react-dom": "^16.3.2",
+        "react-hot-loader": "^4.1.2",
+        "react-scripts": "1.1.4"
+    },
+    "scripts": {
+        "start": "react-app-rewired start",
+        "build": "react-app-rewired build",
+        "test": "react-app-rewired test --env=jsdom"
+    }
+}
