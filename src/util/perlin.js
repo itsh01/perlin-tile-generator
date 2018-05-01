@@ -57,7 +57,7 @@ const perlin = (width, height, seed, octaves, layers) => {
       for (let y = 0; y < height; y++) {
         const v = layeredPerlinPoint(x, y)
         const h = toHex(v)
-        ctx.fillStyle = `#000000${h}`
+        ctx.fillStyle = `#${h}${h}${h}`
         ctx.fillRect(x, y, 1, 1)
       }
     }
