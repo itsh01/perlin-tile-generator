@@ -17,10 +17,10 @@ const generate2dGradient = (width, height, rng) => Array
        .from(new Array(height + 2))
        .map(() => [rng.nextFloat() * 2 - 1, rng.nextFloat() * 2 - 1]))
 
-const perlin = (width, height, seed, octaves) => {
-    const partLegth = width / octaves
+const perlin = (width, height, seed, octaves, layers) => {
+    const partLength = width / octaves
     const rng = new RNG(seed)
-    const [gradWidth, gradHeight] = [parseInt(width / partLegth, 10), parseInt(height / partLegth, 10)]
+    const [gradWidth, gradHeight] = [parseInt(width / partLength, 10), parseInt(height / partLength, 10)]
     const grad2d = generate2dGradient(gradWidth, gradHeight, rng)
     const {canvas, ctx} = generateCanvas(width, height)
 
@@ -42,9 +42,20 @@ const perlin = (width, height, seed, octaves) => {
         return (1 + lerp(ix0, ix1, sy)) / 2
     }
 
+    const layeredPerlinPoint = (x, y) => {
+        return Array
+            .from(new Array(layers))
+            .map((v, i) => {
+                const n = 2 ** i
+                const norm = i > 0 ? 0.5 : 0
+                return (perlinPoint(x / partLength * n, y / partLength * n) - norm) / n
+            })
+            .reduce((a, b) => a + b, 0)
+    }
+
     for (let x = 0; x < width; x++) {
       for (let y = 0; y < height; y++) {
-        const v = perlinPoint(x / partLegth, y / partLegth)
+        const v = layeredPerlinPoint(x, y)
         const h = toHex(v)
         ctx.fillStyle = `#000000${h}`
         ctx.fillRect(x, y, 1, 1)

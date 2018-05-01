@@ -16,15 +16,16 @@ class App extends Component {
     constructor() {
         super()
         this.state = {
-            seed: 1,
+            seed: 9,
             size: 128,
-            octaves: 8,
+            octaves: 6,
+            layers: 3,
             tile: null
         }
     }
     calcTile = () => {
-        const {size, seed, octaves} = this.state
-        const tile = perlin(size, size, seed, octaves)
+        const {size, seed, octaves, layers} = this.state
+        const tile = perlin(size, size, seed, octaves, layers)
         this.setState({tile})
     }
     getBackgroundStyle = () => this.state.tile ? {background: `repeat url(${this.state.tile})`} : {}
@@ -45,7 +46,7 @@ class App extends Component {
                             <TextField
                                 value={this.state.seed}
                                 type="number"
-                                onChange={e => this.setState({seed: e.target.value})}
+                                onChange={e => this.setState({seed: +e.target.value})}
                                 floatingLabelText="Seed"/>
 
                             <TextField
@@ -53,8 +54,15 @@ class App extends Component {
                                 type="number"
                                 min={1}
                                 max={this.state.size}
-                                onChange={e => this.setState({octaves: e.target.value})}
+                                onChange={e => this.setState({octaves: +e.target.value})}
                                 floatingLabelText="Octaves"/>
+
+                            <TextField
+                                value={this.state.layers}
+                                type="number"
+                                min={1}
+                                onChange={e => this.setState({layers: +e.target.value})}
+                                floatingLabelText="Layers"/>
 
                         </div>
                         <RaisedButton
