@@ -8,3 +8,5 @@ Generates a downloadable [perlin noise](https://en.wikipedia.org/wiki/Perlin_noi
 * Seed - Initial value for pseudo randomness
 * Octaves - Gradient length
 * Layers - Incrementally shorter octaves placed on top
+* Amplitude - Effects contrast
+* Invert - Opposite gradients direction
