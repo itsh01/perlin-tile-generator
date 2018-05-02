@@ -6,6 +6,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
+import Toggle from 'material-ui/Toggle'
 
 import perlin from './util/perlin'
 
@@ -20,12 +21,14 @@ class App extends Component {
             size: 128,
             octaves: 6,
             layers: 3,
+            amplitude: 2,
+            invert: false,
             tile: null
         }
     }
     calcTile = () => {
-        const {size, seed, octaves, layers} = this.state
-        const tile = perlin(size, size, seed, octaves, layers)
+        const {size, seed, octaves, layers, amplitude, invert} = this.state
+        const tile = perlin(size, size, seed, octaves, layers, amplitude, invert)
         this.setState({tile})
     }
     getBackgroundStyle = () => this.state.tile ? {background: `repeat url(${this.state.tile})`} : {}
@@ -48,7 +51,7 @@ class App extends Component {
                             alt="Fork me on GitHub"/>
                     </a>
                     <header className="App-header">
-                        <div className="App-title">
+                        <div className="App-inputs">
                             <TextField
                                 value={this.state.seed}
                                 type="number"
@@ -70,7 +73,22 @@ class App extends Component {
                                 onChange={e => this.setState({layers: +e.target.value})}
                                 floatingLabelText="Layers"/>
 
+                            <TextField
+                                value={this.state.amplitude}
+                                type="number"
+                                min={1}
+                                onChange={e => this.setState({amplitude: +e.target.value})}
+                                floatingLabelText="Amplitude"/>
+
                         </div>
+
+                        <Toggle
+                          label="Invert"
+                          toggled={this.state.invert}
+                          onToggle={(e, invert) => this.setState({invert})}
+                          style={{margin: '16px auto', width: 'auto'}}
+                        />
+
                         <RaisedButton
                             href={this.state.tile}
                             label="Download"

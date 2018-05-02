@@ -1,8 +1,13 @@
 
 import RNG from './RNG'
 
+const MAX_HEX = 2 ** 8 - 1
 const lerp = (v0, v1, t) => (1 - t) * v0 + t * v1
-const toHex = x => Math.floor(x * 2 ** 8).toString(16).padStart(2, 0)
+const indentity = x => x
+const invert = x => MAX_HEX - x
+const withinLimits = (x, min, max) => Math.max(min, Math.min(max, x))
+const amplitude = (x, amp) => 0.5 + ((x - 0.5) * amp)
+const toHex = (x, f = indentity) => f(Math.floor(x * MAX_HEX)).toString(16).padStart(2, 0)
 
 const generateCanvas = (width, height) => {
     const canvas = document.createElement('canvas')
@@ -17,7 +22,7 @@ const generate2dGradient = (width, height, rng) => Array
        .from(new Array(height + 2))
        .map(() => [rng.nextFloat() * 2 - 1, rng.nextFloat() * 2 - 1]))
 
-const perlin = (width, height, seed, octaves, layers) => {
+const perlin = (width, height, seed, octaves, layers, amp, isInvert) => {
     const partLength = width / octaves
     const rng = new RNG(seed)
     const [gradWidth, gradHeight] = [parseInt(width / partLength, 10), parseInt(height / partLength, 10)]
@@ -55,8 +60,8 @@ const perlin = (width, height, seed, octaves, layers) => {
 
     for (let x = 0; x < width; x++) {
       for (let y = 0; y < height; y++) {
-        const v = layeredPerlinPoint(x, y)
-        const h = toHex(v)
+        const v = withinLimits(amplitude(layeredPerlinPoint(x, y), amp), 0, 1)
+        const h = toHex(v, isInvert ? invert : indentity)
         ctx.fillStyle = `#${h}${h}${h}`
         ctx.fillRect(x, y, 1, 1)
       }

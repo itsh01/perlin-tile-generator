@@ -11,11 +11,19 @@
 
 .App-header {
   background-color: #222;
-  padding: 20px;
   color: white;
+
+  padding: 50px;
+  height: calc(100vh - (100vw / 2));
+  min-height: 150px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
 }
 
-.App-title {
+.App-inputs {
   font-size: 1.5em;
 }
 
